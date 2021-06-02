@@ -51,3 +51,5 @@ const onSeatSelect = (event) => {
 }
 
 arenaEl.addEventListener('click', onSeatSelect);
+
+
