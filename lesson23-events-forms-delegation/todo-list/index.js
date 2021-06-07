@@ -60,11 +60,18 @@ const onCheckbox = (event) => {
   const liElement = event.target.closest('.list__item');
   if (event.target.checked) {
     liElement.classList.add('list__item_done');
+    const index = tasks.findIndex(el => event.target);
+    tasks[index] = { text: `${liElement.textContent}`, done: true };
   }
   if (!event.target.checked) {
     liElement.classList.remove('list__item_done');
+    tasks[0] = { text: `${liElement.textContent}`, done: false }
   }
-}
-
+  console.log(tasks);
+  tasks.sort((a, b) => a.done - b.done)
+  listElem.innerHTML = '';
+  renderTasks(tasks);
+  
+};
 
 listElem.addEventListener('click', onCheckbox);
