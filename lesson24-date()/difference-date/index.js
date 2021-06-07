@@ -2,25 +2,21 @@ export const getDiff = (startDate, endDate) => {
   const startDay = new Date(startDate).getTime();
   const endDay = new Date(endDate).getTime();
   const difference = startDay - endDay;
-  console.log(difference);
 
-  const day = 
+  const dayFull = difference / (1000 * 60 * 60 * 24);
+  const day = Math.trunc(dayFull);
 
-  // const startHour = new Date(startDate).getHours();
-  // const endHour = new Date(endDate).getHours();
-  // const hour = startHour - endHour;
+  const hourFull = (dayFull - day) * 24;
+  const hour = Math.trunc(hourFull);
 
-  // const startMinutes = new Date(startDate).getMinutes();
-  // const endMinutes = new Date(endDate).getMinutes();
-  // const minutes = startMinutes - endMinutes;
+  const minutesFull = (hourFull - hour) * 60;
+  const minutes = Math.trunc(minutesFull);
 
-  // const startSeconds = new Date(startDate).getSeconds();
-  // const endSeconds = new Date(endDate).getSeconds();
-  // const seconds = startSeconds - endSeconds;
+  const secondsFull = (minutesFull - minutes) * 60;
+  const seconds = Math.trunc(secondsFull);
 
-  return `${Math.abs(day)}d ${Math.abs(hour)}h ${Math.abs(minutes)}m ${Math.abs(seconds)}s`
-
+  return `${Math.abs(day)}d ${Math.abs(hour)}h ${Math.abs(minutes)}m ${Math.abs(seconds)}s`;
 }
 
-const result = getDiff(new Date(2021, 5, 25, 13, 13, 46), new Date(2020, 5, 15, 6, 23, 38));
+const result = getDiff(new Date(2021, 5, 24, 6, 23, 38), new Date(2021, 5, 25, 13, 25, 46), );
 console.log(result);
