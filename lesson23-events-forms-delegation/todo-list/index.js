@@ -13,11 +13,12 @@ const tasks = [
 const renderTasks = tasksList => {
   const tasksElems = tasksList
     .sort((a, b) => a.done - b.done)
-    .map(({ text, done }) => {
+    .map(({ text, done, id }) => {
       const listItemElem = document.createElement('li');
       listItemElem.classList.add('list__item');
       const checkbox = document.createElement('input');
       checkbox.setAttribute('type', 'checkbox');
+      checkbox.setAttribute('data-id', id);
       checkbox.dataset.id = Math.random();
       checkbox.checked = done;
       checkbox.classList.add('list__item-checkbox');
@@ -41,7 +42,11 @@ const onCreateLi = () => {
     return;
   }
   listElem.innerHTML = '';
-  tasks.unshift({ text: `${inputElem.value}`, done: false });
+  tasks.unshift({ 
+    text: `${inputElem.value}`, 
+    done: false,
+    id: Math.random().toString(),
+  });
   renderTasks(tasks);
   inputElem.value = '';
 }
@@ -58,20 +63,23 @@ const onCheckbox = (event) => {
     return;
   }
   const liElement = event.target.closest('.list__item');
+  const id = event.target.dataset.id;
+  const index = [...checkboxElem].findIndex(el => el.dataset.id === id);
+  
   if (event.target.checked) {
-    liElement.classList.add('list__item_done');
-    const index = tasks.findIndex(el => event.target);
+    // liElement.classList.add('list__item_done');
     tasks[index] = { text: `${liElement.textContent}`, done: true };
+    listElem.innerHTML = '';
+    renderTasks(tasks);
   }
   if (!event.target.checked) {
-    liElement.classList.remove('list__item_done');
-    tasks[0] = { text: `${liElement.textContent}`, done: false }
+    // liElement.classList.remove('list__item_done');
+    tasks[index] = { text: `${liElement.textContent}`, done: false };
+    listElem.innerHTML = '';
+    renderTasks(tasks);
   }
-  console.log(tasks);
-  tasks.sort((a, b) => a.done - b.done)
-  listElem.innerHTML = '';
-  renderTasks(tasks);
   
+  console.log(tasks);
 };
 
 listElem.addEventListener('click', onCheckbox);
