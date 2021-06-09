@@ -32,12 +32,3 @@ resultPromise.then(data => {
 
 resultPromise.catch(error => console.log(error));
 
-// const onImgLoaded = (error, data) => {
-//   if (error) {
-//     console.log(error);
-//     return;
-//   }
-//   const {width, height} = data;
-//   const sizeElem = document.querySelector('.image-size');
-//   sizeElem.textContent = `${width} x ${height}`;
-// }
