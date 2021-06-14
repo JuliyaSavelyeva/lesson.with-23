@@ -36,9 +36,3 @@ resultPromise
     console.log(result); // 98
   });
 
-
-
-console.log(b);
-b;
-b = 5;
-
