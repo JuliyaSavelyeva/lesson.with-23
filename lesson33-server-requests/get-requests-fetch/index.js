@@ -6,8 +6,6 @@ const defaultAvatar = 'https://avatars3.githubusercontent.com/u10001';
 
 userAvatarElem.src = defaultAvatar;
 
-// https://api.github.com/users/USERNAME
-
 const showUserBtnElem = document.querySelector('.name-form__btn');
 const userNameInputElem = document.querySelector('.name-form__input');
 
