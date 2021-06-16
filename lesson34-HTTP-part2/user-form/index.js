@@ -37,20 +37,24 @@ const recordUserData = userData =>
 const getUserData = userId =>
   fetch(`${baseUrl}/${userId}`).then(response => response.json(response));
 
-const onFormSubmit = e => {
-  e.preventDefault();
-
-  const userData = createUserData();
-  recordUserData(userData)
-    .then(response => response.json(response))
-    .then(data => getUserData(data.id))
-    .then(message => alert(JSON.stringify(message)))
-    .catch(() => Promise.reject(catchError()));
+const alertMessage = message => {
+  alert(JSON.stringify(message));
 
   emailElem.value = '';
   nameElem.value = '';
   passwordElem.value = '';
   submitBtnElem.disabled = true;
+};
+
+const onFormSubmit = e => {
+  e.preventDefault();
+
+  const userData = createUserData();
+  recordUserData(userData)
+    .catch(() => Promise.reject(catchError()))
+    .then(response => response.json(response))
+    .then(data => getUserData(data.id))
+    .then(message => alertMessage(message));
 };
 
 loginFormElem.addEventListener('submit', onFormSubmit);
