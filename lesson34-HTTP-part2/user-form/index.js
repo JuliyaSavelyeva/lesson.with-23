@@ -22,7 +22,7 @@ const createUserData = () => ({
 });
 
 const catchError = () => {
-  errorElem.textContent = new Error('Failed to create user');
+  errorElem.textContent = Promise.reject(new Error('Failed to create user'));
 };
 
 const recordUserData = userData =>
@@ -33,9 +33,6 @@ const recordUserData = userData =>
     },
     body: JSON.stringify(userData),
   });
-
-const getUserData = userId =>
-  fetch(`${baseUrl}/${userId}`).then(response => response.json(response));
 
 const alertMessage = message => {
   alert(JSON.stringify(message));
@@ -51,9 +48,8 @@ const onFormSubmit = e => {
 
   const userData = createUserData();
   recordUserData(userData)
-    .catch(() => Promise.reject(catchError()))
+    .catch(() => Promise.reject(new Error('Failed to create user')))
     .then(response => response.json(response))
-    .then(data => getUserData(data.id))
     .then(message => alertMessage(message));
 };
 
