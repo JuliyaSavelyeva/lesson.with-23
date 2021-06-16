@@ -1,25 +1,34 @@
 import { renderTasks } from './renderer.js';
 import { getItem, setItem } from './storage.js';
+import { updateTask, getTasksList } from './tasksGateway.js';
 
 export const onToggleTask = e => {
-  const isCheckbox = e.target.classList.contains('list-item__checkbox');
+  const updatedTasksList = tasksList => {
+    const taskId = e.target.dataset.id;
+    const { text, createDate } = tasksList.find(task => task.id === taskId);
 
-  if (!isCheckbox) {
-    return;
-  }
+    const done = e.target.checked;
 
-  const tasksList = getItem('tasksList');
-  const newTasksList = tasksList.map(task => {
-    if (task.id === e.target.dataset.id) {
-      const done = e.target.checked;
-      return {
-        ...task,
-        done,
-        finishDate: done ? new Date().toISOString() : null,
-      };
-    }
-    return task;
-  });
-  setItem('tasksList', newTasksList);
-  renderTasks();
+    const updatedTaskData = {
+      text,
+      createDate,
+      done,
+      finishDate: done ? new Date().toISOString() : null,
+    };
+
+    updateTask(taskId, updatedTaskData)
+      .then(() => getTasksList())
+      .then(newTasksList => {
+        setItem('tasksList', newTasksList);
+        renderTasks();
+      });
+  };
+
+  getTasksList().then(tasksList => updatedTasksList(tasksList));
 };
+
+// Prepare data
+// Update data to db
+// Read new data from server
+// Save new data to front-end storage
+// Update UI
