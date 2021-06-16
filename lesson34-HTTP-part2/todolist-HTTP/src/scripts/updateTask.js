@@ -1,5 +1,4 @@
 import { renderTasks } from './renderer.js';
-import { getItem, setItem } from './storage.js';
 import { updateTask, getTasksList } from './tasksGateway.js';
 
 export const onToggleTask = e => {
@@ -18,10 +17,7 @@ export const onToggleTask = e => {
 
     updateTask(taskId, updatedTaskData)
       .then(() => getTasksList())
-      .then(newTasksList => {
-        setItem('tasksList', newTasksList);
-        renderTasks();
-      });
+      .then(() => renderTasks());
   };
 
   getTasksList().then(tasksList => updatedTasksList(tasksList));

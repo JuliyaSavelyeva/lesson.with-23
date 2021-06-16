@@ -1,4 +1,4 @@
-import { getItem } from './storage.js';
+import { getTasksList } from './tasksGateway.js';
 
 const listElem = document.querySelector('.list');
 
@@ -33,10 +33,12 @@ const createListItem = ({ text, done, id }) => {
 };
 
 export const renderTasks = () => {
-  const tasksList = getItem('tasksList') || [];
+  const render = tasksList => {
+    listElem.innerHTML = '';
+    const tasksElem = tasksList.sort((a, b) => a.done - b.done).map(createListItem);
 
-  listElem.innerHTML = '';
-  const tasksElem = tasksList.sort((a, b) => a.done - b.done).map(createListItem);
+    listElem.append(...tasksElem);
+  };
 
-  listElem.append(...tasksElem);
+  getTasksList().then(tasksList => render(tasksList));
 };
