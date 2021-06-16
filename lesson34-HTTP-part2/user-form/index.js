@@ -1,4 +1,4 @@
-const baseUrl = 'https://60c9bcb9772a7600172043fe.mockapi.io/api/v1/form';
+const baseUrl = 'https://60c9bcb9772a7600172043fe.mockapi.io/api/v1/for';
 
 const emailElem = document.querySelector('#email');
 const nameElem = document.querySelector('#name');
@@ -22,7 +22,8 @@ const createUserData = () => ({
 });
 
 const catchError = () => {
-  errorElem.textContent = Promise.reject(new Error('Failed to create user'));
+  errorElem.textContent = 'Failed to create user';
+  return Promise.reject(new Error('Error'));
 };
 
 const recordUserData = userData =>
@@ -48,9 +49,9 @@ const onFormSubmit = e => {
 
   const userData = createUserData();
   recordUserData(userData)
-    .catch(() => Promise.reject(new Error('Failed to create user')))
     .then(response => response.json(response))
-    .then(message => alertMessage(message));
+    .then(message => alertMessage(message))
+    .catch(() => catchError());
 };
 
 loginFormElem.addEventListener('submit', onFormSubmit);
