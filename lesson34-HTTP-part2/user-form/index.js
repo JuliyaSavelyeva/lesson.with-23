@@ -16,21 +16,15 @@ const onFieldChange = () => {
 
 loginFormElem.addEventListener('input', onFieldChange);
 
-const createUserData = () => ({
-  email: emailElem.value,
-  userName: nameElem.value,
-  password: passwordElem.value,
-});
-
 let formData;
 
-const recordUserData = formData =>
+const recordUserData = userData =>
   fetch(baseUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
     },
-    body: JSON.stringify(formData),
+    body: JSON.stringify(userData),
   });
 
 const alertMessage = message => {
