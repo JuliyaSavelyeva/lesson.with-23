@@ -22,13 +22,15 @@ const createUserData = () => ({
   password: passwordElem.value,
 });
 
-const recordUserData = userData =>
+let formData;
+
+const recordUserData = formData =>
   fetch(baseUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
     },
-    body: JSON.stringify(userData),
+    body: JSON.stringify(formData),
   });
 
 const alertMessage = message => {
@@ -47,8 +49,12 @@ const errorMessage = () => {
 const onFormSubmit = e => {
   e.preventDefault();
 
-  const userData = createUserData();
-  recordUserData(userData)
+  formData = [...new FormData(loginFormElem)].reduce(
+    (acc, [field, value]) => ({ ...acc, [field]: value }),
+    {},
+  );
+
+  recordUserData(formData)
     .then(response => response.json(response))
     .then(message => alertMessage(message))
     .catch(errorMessage);
